@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { getProduct } from '../api/catalogue';
 import { AsyncView } from '../components/AsyncView';
+import { EnquiryForm } from '../components/EnquiryForm';
 import { Rating } from '../components/Rating';
 import { formatPrice } from '../format';
 import { useAsync } from '../hooks/useAsync';
@@ -26,6 +27,8 @@ export function ProductPage() {
             <Rating rating={product.rating} />
             <p className={styles.price}>{formatPrice(product.price)}</p>
             <p>{product.description}</p>
+            {/* The key gives each product its own form, so nothing typed carries over. */}
+            <EnquiryForm key={product.id} product={product} />
           </div>
         </article>
       )}

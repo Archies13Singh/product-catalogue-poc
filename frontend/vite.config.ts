@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 // The browser calls /api on its own origin and the dev server forwards it to the backend,
 // so the frontend needs no backend URL and no CORS setup.
@@ -12,5 +12,9 @@ export default defineConfig({
     proxy: {
       '/api': backendUrl,
     },
+  },
+  test: {
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.ts',
   },
 });
