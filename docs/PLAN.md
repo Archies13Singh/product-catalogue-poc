@@ -146,3 +146,12 @@ polished visual design.
 | 6 | README, DECISIONS, AI_USAGE, pull request description | 20 min |
 
 Each step is reviewed before the next one starts.
+
+## Changes made during the build
+
+- **Step 1: single products come from the cached product list.** The plan was to call the
+  Fake Store single-product endpoint and turn its "200 with an empty body" into a 404.
+  During the build this was changed: `FakeStoreSource.getProduct` looks the product up in
+  the cached list. That removes a network call per product page and avoids depending on
+  the endpoint's odd behaviour. The `ProductSource` interface still has `getProduct`, so a
+  database-backed source can do a lookup by key.
