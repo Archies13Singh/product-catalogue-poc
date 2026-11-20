@@ -111,6 +111,14 @@ describe('Search', () => {
     expect(main().getByRole('link', { name: /Cotton Jacket/ })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: /Results for/ })).not.toBeInTheDocument();
   });
+
+  it('sends a search address with no term to the full product list', async () => {
+    stubCatalogue();
+    renderAt('/search');
+
+    expect(await screen.findByRole('heading', { name: 'All products' })).toBeInTheDocument();
+    expect(await main().findByRole('link', { name: /USB Cable/ })).toBeInTheDocument();
+  });
 });
 
 describe('Product page', () => {

@@ -53,7 +53,7 @@ backend and no mail server.
 
 ```bash
 cd backend && npm ci && npm test       # 52 tests
-cd frontend && npm ci && npm test      # 17 tests
+cd frontend && npm ci && npm test      # 18 tests
 ```
 
 `npm run typecheck` in either folder runs the TypeScript checks.
@@ -111,7 +111,7 @@ backend/src
   http/errors.ts         error types, one error handler, one error shape
 frontend/src
   api/                   the only code that calls fetch, and only our backend
-  pages/                 Home, Category, Search, Product, Not found
+  pages/                 Home, Category, Search, All products, Product, Not found
   components/            Layout, SearchBar, ProductGrid, ProductTile, EnquiryForm
   hooks/useAsync.ts      loading, error and retry state for a request
   styles/tokens.css      every colour, font size and space, as CSS variables

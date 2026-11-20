@@ -4,7 +4,7 @@ import styles from './SearchBar.module.css';
 
 /**
  * The search box and button. Submitting goes to the search page with the term in the URL.
- * Submitting an empty box clears the search, and the search page then lists every product.
+ * Submitting an empty box clears the search and goes to the full product list.
  */
 export function SearchBar() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export function SearchBar() {
   function handleSubmit(event: FormEvent) {
     event.preventDefault();
     const trimmed = term.trim();
-    navigate(trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : '/search');
+    navigate(trimmed ? `/search?q=${encodeURIComponent(trimmed)}` : '/products');
   }
 
   return (

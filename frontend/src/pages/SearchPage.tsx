@@ -1,5 +1,5 @@
-import { useSearchParams } from 'react-router-dom';
-import { listProducts, searchProducts } from '../api/catalogue';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import { searchProducts } from '../api/catalogue';
 import { AsyncView } from '../components/AsyncView';
 import { ProductGrid } from '../components/ProductGrid';
 import { useAsync } from '../hooks/useAsync';
@@ -9,24 +9,15 @@ export function SearchPage() {
   const [searchParams] = useSearchParams();
   const term = (searchParams.get('q') ?? '').trim();
 
+  // A search with no term is the whole catalogue, which lives at /products.
+  if (!term) {
+    return <Navigate to="/products" replace />;
+  }
+
   return (
     <>
       <title>{`Search | ${SITE_NAME}`}</title>
-      {term ? <SearchResults term={term} /> : <AllProducts />}
-    </>
-  );
-}
-
-/** Shown when the search is empty: clearing the search lists the whole catalogue again. */
-function AllProducts() {
-  const { state, retry } = useAsync(listProducts, []);
-
-  return (
-    <>
-      <h1>All products</h1>
-      <AsyncView state={state} retry={retry}>
-        {(products) => <ProductGrid products={products} />}
-      </AsyncView>
+      <SearchResults term={term} />
     </>
   );
 }

@@ -166,5 +166,5 @@ Each step is reviewed before the next one starts.
   `.env.example` apply with and without Docker.
 - **After step 6: clearing the search shows all products.** The plan said an empty term
   is not searched, and the form asked for a term. In use, clearing the box and submitting
-  left the previous results on screen. An empty submit now goes to `/search` with no
-  term, which lists every product.
+  left the previous results on screen. An empty submit now goes to a new `/products`
+  page, which lists every product. `/search` with no term redirects there.
