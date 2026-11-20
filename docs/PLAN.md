@@ -155,3 +155,12 @@ Each step is reviewed before the next one starts.
   the cached list. That removes a network call per product page and avoids depending on
   the endpoint's odd behaviour. The `ProductSource` interface still has `getProduct`, so a
   database-backed source can do a lookup by key.
+- **Step 3: a few small frontend files were added** that the structure above does not
+  list: `hooks/useAsync.ts` and `components/AsyncView.tsx` (shared loading, error and
+  retry handling), `components/Rating.tsx`, `siteConfig.ts` and `format.ts`. Each avoids
+  repeating code across pages.
+- **Step 5: a `TRUST_PROXY_HOPS` setting was added**, so the enquiry rate limit sees each
+  visitor's own address when the backend runs behind nginx. nginx also sets security
+  headers for the site.
+- **Step 6: the backend dev command reads an optional `.env` file**, so the settings in
+  `.env.example` apply with and without Docker.
