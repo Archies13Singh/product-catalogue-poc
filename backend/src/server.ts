@@ -1,5 +1,6 @@
 import { createApp } from './app';
 import { loadConfig, type Config } from './config';
+import { SmtpMailer } from './enquiries/smtpMailer';
 import { FakeStoreSource } from './products/fakeStoreSource';
 
 function readConfigOrExit(): Config {
@@ -18,7 +19,8 @@ const productSource = new FakeStoreSource({
   baseUrl: config.fakeStoreBaseUrl,
   cacheTtlSeconds: config.productCacheTtlSeconds,
 });
+const mailer = new SmtpMailer(config.smtp);
 
-createApp({ config, productSource }).listen(config.port, () => {
+createApp({ config, productSource, mailer }).listen(config.port, () => {
   console.log(`Backend listening on port ${config.port}`);
 });
