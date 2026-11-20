@@ -58,6 +58,9 @@ cd frontend && npm ci && npm test      # 18 tests
 
 `npm run typecheck` in either folder runs the TypeScript checks.
 
+A GitHub Actions workflow, [.github/workflows/ci.yml](.github/workflows/ci.yml), runs
+the type checks and tests for both apps on every pull request.
+
 ## Configuration
 
 Every setting has a working default, so configuration is optional. To change one, copy

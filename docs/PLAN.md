@@ -168,3 +168,5 @@ Each step is reviewed before the next one starts.
   is not searched, and the form asked for a term. In use, clearing the box and submitting
   left the previous results on screen. An empty submit now goes to a new `/products`
   page, which lists every product. `/search` with no term redirects there.
+- **After step 6: a CI workflow was added.** `.github/workflows/ci.yml` runs the type
+  checks and tests for both apps on every pull request. It was not in the plan.
