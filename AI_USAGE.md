@@ -112,7 +112,7 @@ change and recorded it in the plan. I kept it, and the reasoning is in DECISIONS
 
 ## A mistake of my own
 
-Partway through, I merged pull requests into `main` on GitHub. That would have left the
-final pull request showing only part of the work. I reset `main` to the initial commit so
-that one open pull request shows the whole solution. Pull requests #1 to #4 remain in the
-closed list as a result.
+Partway through, I merged pull requests into `main` on GitHub, and after resetting it I
+did so a second time. That would have left the final pull request showing only part of
+the work. I reset `main` to the initial commit so that one open pull request shows the
+whole solution. Pull requests #1 to #6 remain in the closed list as a result.
