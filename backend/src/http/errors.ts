@@ -23,6 +23,12 @@ export class NotFoundError extends AppError {
   }
 }
 
+export class TooManyRequestsError extends AppError {
+  constructor(message: string) {
+    super(429, 'TOO_MANY_REQUESTS', message);
+  }
+}
+
 /** A service we depend on (product data source, mail server) failed. */
 export class UpstreamError extends AppError {
   constructor(message: string, options?: ErrorOptions) {
@@ -42,7 +48,22 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
     res.status(err.status).json({ error: { code: err.code, message: err.message } });
     return;
   }
+  // Errors raised by the JSON body parser: malformed JSON or a body over the size limit.
+  if (isBodyParserError(err)) {
+    res.status(err.status).json({
+      error: { code: 'INVALID_INPUT', message: 'The request body could not be read' },
+    });
+    return;
+  }
   // Unknown errors may contain internal details, so the client gets a generic message.
   console.error(err);
   res.status(500).json({ error: { code: 'INTERNAL_ERROR', message: 'Something went wrong' } });
 };
+
+function isBodyParserError(err: unknown): err is { status: number } {
+  if (typeof err !== 'object' || err === null) return false;
+  const { type, status } = err as { type?: unknown; status?: unknown };
+  return (
+    typeof type === 'string' && type.startsWith('entity.') && (status === 400 || status === 413)
+  );
+}

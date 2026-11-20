@@ -2,7 +2,7 @@ import request from 'supertest';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createApp } from '../app';
 import { UpstreamError } from '../http/errors';
-import { FakeProductSource, makeProduct, testConfig } from '../test/fakes';
+import { FakeMailer, FakeProductSource, makeProduct, testConfig } from '../test/fakes';
 
 const products = [
   makeProduct({ id: '1', title: 'Laptop', category: 'electronics', rating: { score: 4.0, count: 10 } }),
@@ -13,7 +13,7 @@ const products = [
 
 function setup() {
   const productSource = new FakeProductSource(products);
-  const app = createApp({ config: testConfig, productSource });
+  const app = createApp({ config: testConfig, productSource, mailer: new FakeMailer() });
   return { app, productSource };
 }
 
