@@ -20,7 +20,12 @@ and the email provider can each be replaced without touching the rest. See
 
 You need Docker with Compose. Nothing else: no accounts, no keys, no `.env` file.
 
+The solution is on the `feature/product-catalogue` branch, which is the open pull
+request into `main`. `main` holds only a placeholder, so clone the feature branch:
+
 ```bash
+git clone --branch feature/product-catalogue https://github.com/Archies13Singh/product-catalogue-poc.git
+cd product-catalogue-poc
 docker compose up --build
 ```
 
