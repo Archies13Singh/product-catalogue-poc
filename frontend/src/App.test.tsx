@@ -20,6 +20,7 @@ function stubCatalogue() {
     }
     if (url === '/api/products?search=jacket') return { body: [jacket] };
     if (url.startsWith('/api/products?search=')) return { body: [] };
+    if (url === '/api/products') return { body: [jacket, monitor, cable] };
     if (url === '/api/products/3') return { body: jacket };
     if (url === '/api/enquiries' && method === 'POST') return { status: 201, body: {} };
     return { status: 404, body: errorBody('NOT_FOUND', 'Product not found') };
@@ -96,16 +97,19 @@ describe('Search', () => {
     expect(await screen.findByText('No products found for “bicycle”.')).toBeInTheDocument();
   });
 
-  it('asks for a term and does not search when the box is empty', async () => {
-    const fetchMock = stubCatalogue();
-    const user = renderAt('/');
-    await main().findByRole('link', { name: /Wide Monitor/ });
-    const callsBefore = fetchMock.mock.calls.length;
+  it('shows all products again when the search is cleared and submitted', async () => {
+    stubCatalogue();
+    const user = renderAt('/search?q=jacket');
+    await main().findByRole('link', { name: /Cotton Jacket/ });
+    expect(main().queryByRole('link', { name: /USB Cable/ })).not.toBeInTheDocument();
 
+    await user.clear(screen.getByRole('searchbox', { name: 'Search products' }));
     await user.click(screen.getByRole('button', { name: 'Search' }));
 
-    expect(screen.getByText('Enter a search term.')).toBeInTheDocument();
-    expect(fetchMock.mock.calls).toHaveLength(callsBefore);
+    expect(await screen.findByRole('heading', { name: 'All products' })).toBeInTheDocument();
+    expect(await main().findByRole('link', { name: /USB Cable/ })).toBeInTheDocument();
+    expect(main().getByRole('link', { name: /Cotton Jacket/ })).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: /Results for/ })).not.toBeInTheDocument();
   });
 });
 

@@ -96,6 +96,7 @@ had been temporary, and showed me the translation from the Fake Store shape to o
 | The enquiry form kept showing "Enter a valid email address" after the address had been corrected. All the automated tests passed with this bug in place. | It was visible in a screenshot from the real-browser run of the enquiry journey. | A one-line fix, plus a test that fails without the fix. |
 | The enquiry rate limit would have treated all visitors as one once the backend sat behind a proxy, because every request would arrive from the proxy's address. | I asked whether all the requirements for that step were complete. The AI's review listed this as a gap. | A `TRUST_PROXY_HOPS` setting and a test with two visitors. |
 | The backend's dev command did not read the `.env` file, though the instructions implied it did. | Found while the README was being written against the real commands. | The dev command now reads `.env` if it exists. |
+| Submitting an empty search left the previous results on screen under the old heading, with only a hint to enter a term. The AI had built and tested this as the intended behaviour. | I found it myself while using the site: I searched, cleared the box and pressed Enter. | An empty search now lists all products. The test for the old behaviour was replaced. |
 
 The AI also departed from the plan once on purpose: single products are read from the
 cached product list, not from the Fake Store single-product endpoint. It flagged the
@@ -103,7 +104,7 @@ change and recorded it in the plan. I kept it, and the reasoning is in DECISIONS
 
 ## What I took from this
 
-- **Passing tests were not enough.** Two of the problems above were only visible in a
+- **Passing tests were not enough.** Three of the problems above were only visible in a
   real browser. I would add automated end-to-end tests next.
 - **Asking "is every requirement met?" after each step paid off.** The AI's first
   "done" was not always complete, and a direct question brought out the gaps.

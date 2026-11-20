@@ -164,3 +164,7 @@ Each step is reviewed before the next one starts.
   headers for the site.
 - **Step 6: the backend dev command reads an optional `.env` file**, so the settings in
   `.env.example` apply with and without Docker.
+- **After step 6: clearing the search shows all products.** The plan said an empty term
+  is not searched, and the form asked for a term. In use, clearing the box and submitting
+  left the previous results on screen. An empty submit now goes to `/search` with no
+  term, which lists every product.

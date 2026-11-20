@@ -13,6 +13,10 @@ export function getCategoryPage(slug: string): Promise<CategoryPage> {
   return request(`/categories/${encodeURIComponent(slug)}`);
 }
 
+export function listProducts(): Promise<Product[]> {
+  return request('/products');
+}
+
 export function searchProducts(term: string): Promise<Product[]> {
   return request(`/products?search=${encodeURIComponent(term)}`);
 }

@@ -28,7 +28,7 @@ Where the acceptance criteria were unclear, I made these assumptions.
 | Which text is matched? | Title, description and category name. |
 | How is it matched? | Case-insensitive, and part of a word matches: "jack" finds "jacket". |
 | "WHEN I click the search button" | Search runs on submit, by button or Enter key. There is no search-as-you-type. |
-| An empty search term | The form asks for a term and no request is made. |
+| An empty search term | Clearing the box and submitting shows all products. An empty term excludes nothing, and a customer who clears a search expects the full list back. |
 | No matches | A "No products found" message. |
 | Where does the search run? | On the backend. Filtering 20 products in the browser would work, but a real data source will search for itself, and this way the frontend does not change when it does. |
 

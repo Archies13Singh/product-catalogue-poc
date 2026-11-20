@@ -134,6 +134,7 @@ Browser ──► nginx ──► /api ──► Backend ──► ProductSource
 | `GET /api/categories` | `[{ slug, name }]` |
 | `GET /api/categories/:slug` | `{ category, topRated, others }` |
 | `GET /api/products?search=term` | Products matching the term |
+| `GET /api/products` | All products |
 | `GET /api/products/:id` | One product |
 | `POST /api/enquiries` | `201` once the email has been accepted |
 | `GET /health` | `{ status: "ok" }` |
