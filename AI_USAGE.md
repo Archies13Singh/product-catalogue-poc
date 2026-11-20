@@ -32,7 +32,7 @@ departed from it.
 2. **Plan, then approve.** I asked for a plan that covered every requirement without
    over-engineering. It listed what would be left out as well as what would be built.
 3. **Build in six steps**, each ending with tests, a check against the running app, and a
-   stop for my review. Each step is one commit.
+   stop for my review. Each step is one commit; later fixes are separate commits.
 4. **Cross-check against the requirements** after each step, before moving on.
 
 ## Key moments that shaped the solution

@@ -28,7 +28,7 @@ Where the acceptance criteria were unclear, I made these assumptions.
 | Which text is matched? | Title, description and category name. |
 | How is it matched? | Case-insensitive, and part of a word matches: "jack" finds "jacket". |
 | "WHEN I click the search button" | Search runs on submit, by button or Enter key. There is no search-as-you-type. |
-| An empty search term | Clearing the box and submitting shows all products. An empty term excludes nothing, and a customer who clears a search expects the full list back. |
+| An empty search term | Clearing the box and submitting shows all products, on their own page at `/products`. An empty term excludes nothing, and a customer who clears a search expects the full list back. |
 | No matches | A "No products found" message. |
 | Where does the search run? | On the backend. Filtering 20 products in the browser would work, but a real data source will search for itself, and this way the frontend does not change when it does. |
 
@@ -50,6 +50,12 @@ Where the acceptance criteria were unclear, I made these assumptions.
 | When is "Thank you" shown? | Only after the mail server has accepted the email. If sending fails, the customer sees an error and the form keeps what they typed. |
 | Does the customer get a copy? | No. The criterion only mentions the sales inbox. |
 | How is email sent with no paid service? | Over SMTP to Mailpit, a local mail catcher with a web inbox. |
+
+### Running the solution
+
+| Gap | Assumption |
+|---|---|
+| What does the reviewer have installed? | Docker with Compose. The brief gives `docker compose up` as its example, so the full run depends on it. The automated tests need only Node.js. |
 
 ## Dropped or simplified
 
@@ -147,8 +153,8 @@ Nothing in the solution is tied to a cloud provider. The path I would take:
 
 ## What I would do next with another day
 
-1. **Automated end-to-end tests** for the main journey, run against the Compose setup,
-   plus a CI pipeline that runs type checks and tests on every push.
+1. **Automated end-to-end tests** for the main journey, run against the Compose setup
+   and added to the CI workflow, which today runs the type checks and unit tests.
 2. **Keep serving the last good product list** when the data source is down, so a short
    outage does not take the catalogue offline.
 3. **Store enquiries** before sending, so a mail failure can be retried and no lead is lost.
