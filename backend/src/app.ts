@@ -30,6 +30,7 @@ export function createApp({ config, productSource, mailer }: AppDependencies): E
   });
 
   const app = express();
+  app.set('trust proxy', config.trustProxyHops);
   app.use(helmet());
   // An enquiry is a few short fields, so anything larger is rejected.
   app.use(express.json({ limit: '10kb' }));

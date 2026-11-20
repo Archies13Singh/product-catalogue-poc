@@ -11,10 +11,10 @@ const validEnquiry = {
   message: 'Do you have this in medium?',
 };
 
-function setup() {
+function setup(config = testConfig) {
   const mailer = new FakeMailer();
   const productSource = new FakeProductSource([makeProduct({ id: '3', title: 'Cotton Jacket' })]);
-  const app = createApp({ config: testConfig, productSource, mailer });
+  const app = createApp({ config, productSource, mailer });
   return { app, mailer };
 }
 
@@ -144,5 +144,17 @@ describe('POST /api/enquiries', () => {
     expect(response.status).toBe(429);
     expect(response.body.error.code).toBe('TOO_MANY_REQUESTS');
     expect(mailer.sent).toHaveLength(testConfig.enquiryRateLimitMax);
+  });
+
+  it('limits each visitor separately when the backend is behind a proxy', async () => {
+    const { app } = setup({ ...testConfig, trustProxyHops: 1 });
+    const send = (visitorAddress: string) =>
+      request(app).post('/api/enquiries').set('X-Forwarded-For', visitorAddress).send(validEnquiry);
+    for (let i = 0; i < testConfig.enquiryRateLimitMax; i++) {
+      await send('203.0.113.1').expect(201);
+    }
+
+    await send('203.0.113.1').expect(429);
+    await send('203.0.113.2').expect(201);
   });
 });

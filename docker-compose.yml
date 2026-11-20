@@ -1,0 +1,40 @@
+# Runs the whole solution locally:
+#   Site          http://localhost:8080
+#   Sales inbox   http://localhost:8025   (Mailpit, a local mail catcher)
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  backend:
+    build: ./backend
+    # Optional: settings from .env override the defaults. See .env.example.
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: 3000
+      # Inside Compose the mail server is the mailpit service, and nginx is one proxy in front.
+      SMTP_HOST: mailpit
+      SMTP_PORT: 1025
+      TRUST_PROXY_HOPS: 1
+    # Forwards stop signals to Node so the container shuts down promptly.
+    init: true
+    depends_on:
+      - mailpit
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Catches every email the backend sends and shows it in a web inbox. Nothing leaves your machine.
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025" # web inbox
+      - "1025:1025" # SMTP, published so a backend run with `npm run dev` can use it too

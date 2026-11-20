@@ -6,6 +6,9 @@ const commaSeparatedList = z
 
 const envSchema = z.object({
   PORT: z.coerce.number().int().positive().default(3000),
+  // How many reverse proxies sit in front of the backend (0 when it is reached directly).
+  // Needed to see each visitor's real address, which the enquiry rate limit relies on.
+  TRUST_PROXY_HOPS: z.coerce.number().int().nonnegative().default(0),
   FAKE_STORE_BASE_URL: z.url().default('https://fakestoreapi.com'),
   PRODUCT_CACHE_TTL_SECONDS: z.coerce.number().int().nonnegative().default(60),
   // The products the business has chosen to feature on the home page.
@@ -27,6 +30,7 @@ const envSchema = z.object({
 
 export interface Config {
   port: number;
+  trustProxyHops: number;
   fakeStoreBaseUrl: string;
   productCacheTtlSeconds: number;
   featuredProductIds: string[];
@@ -51,6 +55,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const values = result.data;
   return {
     port: values.PORT,
+    trustProxyHops: values.TRUST_PROXY_HOPS,
     fakeStoreBaseUrl: values.FAKE_STORE_BASE_URL,
     productCacheTtlSeconds: values.PRODUCT_CACHE_TTL_SECONDS,
     featuredProductIds: values.FEATURED_PRODUCT_IDS,

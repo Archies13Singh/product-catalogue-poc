@@ -50,6 +50,7 @@ export class FakeMailer implements Mailer {
 
 export const testConfig: Config = {
   port: 0,
+  trustProxyHops: 0,
   fakeStoreBaseUrl: 'https://fake-store.test',
   productCacheTtlSeconds: 60,
   featuredProductIds: ['3', '1'],
